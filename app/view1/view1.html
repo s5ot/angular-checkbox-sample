@@ -1,0 +1,14 @@
+<p>This is the partial for view 1.</p>
+
+<table checkbox-table class="table">
+  <tr>
+    <th><input type="checkbox" id="select_all" name="select-all" ng-model="checkboxes.top"></th>
+    <th>名前</th>
+  </tr>
+  <tr ng-repeat="item in items">
+    <td><input type="checkbox" name="member[]" ng-model="checkboxes.items[item.id]"></td>
+    <td>{{item.name}}</td>
+  </tr>
+</table>
+
+{{ checkboxes | json}}
