@@ -10,6 +10,12 @@ angular.module('myApp.view1', ['ngRoute', 'ui.bootstrap'])
 }])
 
 .controller('View1Ctrl', ['$scope', function($scope) {
+  $scope.checkAll = function() {
+    angular.forEach($scope.members, function(member) {
+      member.checked = true;
+    });
+  };
+
   $scope.members = [
     {id: 1, name: '空条承太郎'},
     {id: 2, name: 'ジョセフ・ジョースター'},
@@ -19,38 +25,49 @@ angular.module('myApp.view1', ['ngRoute', 'ui.bootstrap'])
     {id: 6, name: 'イギー'}
   ];
 
-  // make refs to used by checkbox-table directive
-  $scope.items = $scope.members;
-  $scope.checkboxes = { 'top': false, items: {} };
+  $scope.members.map(function(m) {m.checked = false;});
 }])
 
 .controller('CheckboxTableCtrl', ['$scope', function($scope) {
-  // watch for check all checkbox
-  $scope.$watch('checkboxes.top', function(newValue, oldValue) {
-    angular.forEach($scope.items, function(item) {
-      if (angular.isDefined(item.id)) {
-        $scope.checkboxes.items[item.id] = newValue;
+  this.checkboxItems = [];
+  this.checkboxItemElems = [];
+  this.checkboxHead = null;
+  this.checkboxHeadElem = null;
+
+  this.addCheckboxHead = function(checkbox) {
+    this.checkboxHead = checkbox;
+  };
+
+  this.addCheckboxHeadElem = function(checkboxElem) {
+    this.checkboxHeadElem = checkboxElem;
+  };
+
+  this.addCheckboxItem = function(checkbox) {
+    this.checkboxItems.push(checkbox);
+  };
+
+  this.addCheckboxItemElem = function(checkboxElem) {
+    this.checkboxItemElems.push(checkboxElem);
+  };
+
+  this.reviewItem = function() {
+    var headValue = this.checkboxHeadElem.checked;
+    angular.forEach(this.checkboxItems, function(item) {
+      item.$setViewValue(headValue);
+      item.$render();
+    });
+  };
+
+  this.reviewHead = function() {
+    var checked = [];
+    angular.forEach(this.checkboxItemElems, function(item) {
+      if (item.checked) {
+        checked.push(item);
       }
     });
-  });
-
-  // watch for data checkboxes
-  $scope.$watch('checkboxes.items', function(newValues, oldValues) {
-    if (!$scope.items) {
-      return;
-    }
-    var checked = 0, unchecked = 0,
-        total = $scope.items.length;
-    angular.forEach($scope.items, function(item) {
-      checked   +=  ($scope.checkboxes.items[item.id]) || 0;
-      unchecked += (!$scope.checkboxes.items[item.id]) || 0;
-    });
-    if ((unchecked === 0) || (checked === 0)) {
-      $scope.checkboxes.top = (checked == total);
-    }
-    // grayed checkbox
-    angular.element(document.getElementById("select_all")).prop("indeterminate", (checked !== 0 && unchecked !== 0));
-  }, true);
+    this.checkboxHead.$setViewValue(this.checkboxItems.length === checked.length);
+    this.checkboxHead.$render();
+  };
 }])
 
 .directive('checkboxTable', function() {
@@ -58,14 +75,40 @@ angular.module('myApp.view1', ['ngRoute', 'ui.bootstrap'])
     restrict: 'A',
     replace: false,
     controller: 'CheckboxTableCtrl',
-    scope: true,
-    compile: function() {
-      return {
-        pre: function(scope, element, attrs, controller) {
-        },
-        post: function(scope, element, attrs, controller) {
-        }
-      };
+    link: function(scope, elem, attrs, ctrl) {
+    }
+  };
+})
+
+.directive('checkboxHead', function() {
+  return {
+    restrict: 'A',
+    require: ['ngModel', '^checkboxTable'],
+    link: function(scope, elem, attrs, ctrls) {
+      ctrls[1].addCheckboxHead(ctrls[0]);
+      ctrls[1].addCheckboxHeadElem(elem[0]);
+      elem.on('change', function() {
+        ctrls[1].reviewItem();
+      });
+    }
+  };
+})
+
+.directive('checkboxItem', function() {
+  return {
+    restrict: 'A',
+    require: ['ngModel', '^checkboxTable'],
+    link: function(scope, elem, attrs, ctrls) {
+      ctrls[1].addCheckboxItem(ctrls[0]);
+      ctrls[1].addCheckboxItemElem(elem[0]);
+      elem.on('change', function() {
+        ctrls[1].reviewHead();
+      });
+      scope.$watch(function () {
+        return ctrls[0].$modelValue;
+      }, function(newValue) {
+        ctrls[1].reviewHead();
+      });
     }
   };
 });
