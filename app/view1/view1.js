@@ -52,6 +52,7 @@ angular.module('myApp.view1', ['ngRoute', 'ui.bootstrap'])
 
   this.reviewItem = function() {
     var headValue = this.checkboxHeadElem.checked;
+    console.log(headValue);
     angular.forEach(this.checkboxItems, function(item) {
       item.$setViewValue(headValue);
       item.$render();
@@ -65,6 +66,7 @@ angular.module('myApp.view1', ['ngRoute', 'ui.bootstrap'])
         checked.push(item);
       }
     });
+    console.log(this.checkboxItems.length === checked.length);
     this.checkboxHead.$setViewValue(this.checkboxItems.length === checked.length);
     this.checkboxHead.$render();
   };
@@ -87,7 +89,7 @@ angular.module('myApp.view1', ['ngRoute', 'ui.bootstrap'])
     link: function(scope, elem, attrs, ctrls) {
       ctrls[1].addCheckboxHead(ctrls[0]);
       ctrls[1].addCheckboxHeadElem(elem[0]);
-      elem.on('change', function() {
+      elem.on('click', function() {
         ctrls[1].reviewItem();
       });
     }
@@ -101,14 +103,16 @@ angular.module('myApp.view1', ['ngRoute', 'ui.bootstrap'])
     link: function(scope, elem, attrs, ctrls) {
       ctrls[1].addCheckboxItem(ctrls[0]);
       ctrls[1].addCheckboxItemElem(elem[0]);
-      elem.on('change', function() {
+      elem.on('click', function() {
         ctrls[1].reviewHead();
       });
+      /*
       scope.$watch(function () {
         return ctrls[0].$modelValue;
       }, function(newValue) {
         ctrls[1].reviewHead();
       });
+      */
     }
   };
 });
