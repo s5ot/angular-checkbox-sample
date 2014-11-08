@@ -114,7 +114,7 @@ angular.module('myApp.view1', ['ngRoute', 'ui.bootstrap'])
       scope.$watch(function () {
         return ctrls[0].$modelValue;
       }, function(newValue, oldValue) {
-        ctrls[1].reviewHead(newValue);
+        ctrls[1].reviewHead();
       });
     }
   };
