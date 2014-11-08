@@ -16,6 +16,12 @@ angular.module('myApp.view1', ['ngRoute', 'ui.bootstrap'])
     });
   };
 
+  $scope.uncheckAll = function() {
+    angular.forEach($scope.members, function(member) {
+      member.checked = false;
+    });
+  };
+
   $scope.members = [
     {id: 1, name: '空条承太郎'},
     {id: 2, name: 'ジョセフ・ジョースター'},
@@ -52,10 +58,10 @@ angular.module('myApp.view1', ['ngRoute', 'ui.bootstrap'])
 
   this.reviewItem = function() {
     var headValue = this.checkboxHeadElem.checked;
-    console.log(headValue);
     angular.forEach(this.checkboxItems, function(item) {
       item.$setViewValue(headValue);
       item.$render();
+      $scope.$apply();
     });
   };
 
@@ -66,7 +72,6 @@ angular.module('myApp.view1', ['ngRoute', 'ui.bootstrap'])
         checked.push(item);
       }
     });
-    console.log(this.checkboxItems.length === checked.length);
     this.checkboxHead.$setViewValue(this.checkboxItems.length === checked.length);
     this.checkboxHead.$render();
   };
@@ -106,13 +111,11 @@ angular.module('myApp.view1', ['ngRoute', 'ui.bootstrap'])
       elem.on('click', function() {
         ctrls[1].reviewHead();
       });
-      /*
       scope.$watch(function () {
         return ctrls[0].$modelValue;
-      }, function(newValue) {
+      }, function(newValue, oldValue) {
         ctrls[1].reviewHead();
       });
-      */
     }
   };
 });
