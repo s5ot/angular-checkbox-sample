@@ -3,15 +3,19 @@
 <div class="row">
   <div class="col-md-6 col-md-offset-3">
     <form role="form">
-      <table class="table" checkbox-table>
+      <table class="table table-hover">
+        <thead>
         <tr>
-          <th><input type="checkbox" class="checkbox-head" ng-model="checkboxHead" checkbox-head></th>
+          <th></th>
           <th>名前</th>
         </tr>
-        <tr ng-repeat="member in members">
-          <td><input type="checkbox" name="member[]" ng-model="member.checked" checkbox-item></td>
+        </thead>
+        <tbody>
+          <tr ng-repeat="member in members" ng-class="{'active':isActive($index)}" ng-click="activateMember($index)">
+          <td></td>
           <td>{{member.name}}</td>
         </tr>
+        </tbody>
       </table>
     </form>
 
@@ -25,7 +29,31 @@
     -->
 
     <div>
-      <button ng-click="checkAll()">check all</button>
+      <form class="form-horizontal" role="form">
+        <div class="form-group">
+          <label for="inputEmail3" class="col-sm-2 control-label">名前</label>
+          <div class="col-sm-10">
+            <input type="email" class="form-control" id="inputEmail3" placeholder="" value={{members[activeMemberIdx].name}}>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="inputEmail3" class="col-sm-2 control-label">スタンド</label>
+          <div class="col-sm-10">
+            <input type="email" class="form-control" id="inputEmail3" placeholder="">
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="inputEmail3" class="col-sm-2 control-label">年齢</label>
+          <div class="col-sm-10">
+            <input type="email" class="form-control" id="inputEmail3" placeholder="">
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="col-sm-offset-2 col-sm-10">
+            <button type="submit" class="btn btn-default">更新</button>
+          </div>
+        </div>
+      </form>
     </div>
   </div>
 </div>

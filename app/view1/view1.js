@@ -19,15 +19,23 @@ angular.module('myApp.view1', ['ui.bootstrap'])
   };
 
   $scope.members = [
-    {id: 1, name: '空条承太郎'},
-    {id: 2, name: 'ジョセフ・ジョースター'},
-    {id: 3, name: 'モハメド・アヴドゥル'},
-    {id: 4, name: '花京院典明'},
-    {id: 5, name: 'ジャン=ピエール・ポルナレフ'},
-    {id: 6, name: 'イギー'}
+    {id: 1, name: '空条承太郎', stand: 'スタープラチナ', age: 17},
+    {id: 2, name: 'ジョセフ・ジョースター', stand: 'ハーミットパープル', age:69},
+    {id: 3, name: 'モハメド・アヴドゥル', stand: 'マジシャンズレッド', age: 28},
+    {id: 4, name: '花京院典明', stand: 'ハイエロファントグリーン', age: 17},
+    {id: 5, name: 'ジャン=ピエール・ポルナレフ', stand: 'シルバーチャリオッツ', age:22},
+    {id: 6, name: 'イギー', stand: 'ザ・フール', age: 5}
   ];
 
   $scope.members.map(function(m) {m.checked = false;});
+
+  $scope.activateMember = function(idx) {
+    $scope.activeMemberIdx = idx;
+  };
+
+  $scope.isActive = function(idx) {
+    return $scope.activeMemberIdx == idx;
+  };
 }])
 
 .controller('CheckboxTableCtrl', ['$scope', function($scope) {
