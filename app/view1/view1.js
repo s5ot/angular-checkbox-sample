@@ -11,13 +11,15 @@ angular.module('myApp.view1', ['ui.bootstrap'])
 }])
 */
 
-.controller('View1Ctrl', ['$scope', function($scope) {
+.controller('View1Ctrl', ['$scope', '$state', 'members', function($scope, $state, members) {
+  $scope.members = members;
   $scope.checkAll = function() {
     angular.forEach($scope.members, function(member) {
       member.checked = true;
     });
   };
 
+  /*
   $scope.members = [
     {id: 1, name: '空条承太郎', stand: 'スタープラチナ', age: 17},
     {id: 2, name: 'ジョセフ・ジョースター', stand: 'ハーミットパープル', age:69},
@@ -26,6 +28,7 @@ angular.module('myApp.view1', ['ui.bootstrap'])
     {id: 5, name: 'ジャン=ピエール・ポルナレフ', stand: 'シルバーチャリオッツ', age:22},
     {id: 6, name: 'イギー', stand: 'ザ・フール', age: 5}
   ];
+  */
 
   $scope.members.map(function(m) {m.checked = false;});
 
@@ -36,6 +39,14 @@ angular.module('myApp.view1', ['ui.bootstrap'])
   $scope.isActive = function(idx) {
     return $scope.activeMemberIdx == idx;
   };
+
+  $scope.showMember = function(idx) {
+    $scope.activeMemberIdx = idx;
+    $state.go('view1.detail',  $scope.members[idx]);
+  };
+}])
+
+.controller('View1DetailCtrl', ['$scope', '$state', '$stateParams', function($scope, $state, $stateParams) {
 }])
 
 .controller('CheckboxTableCtrl', ['$scope', function($scope) {
@@ -62,7 +73,6 @@ angular.module('myApp.view1', ['ui.bootstrap'])
 
   this.reviewItem = function() {
     var headValue = this.checkboxHeadElem.checked;
-    console.log(headValue);
     angular.forEach(this.checkboxItems, function(item) {
       item.$setViewValue(headValue);
       item.$render();

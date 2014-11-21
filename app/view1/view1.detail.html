@@ -1,0 +1,25 @@
+<form class="form-horizontal" role="form">
+  <div class="form-group">
+    <label for="inputEmail3" class="col-sm-2 control-label">名前</label>
+    <div class="col-sm-10">
+      <input type="text" class="form-control" placeholder="" value={{members[activeMemberIdx].name}}>
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="inputEmail3" class="col-sm-2 control-label">スタンド</label>
+    <div class="col-sm-10">
+      <input type="text" class="form-control" placeholder="" value={{members[activeMemberIdx].stand}}>
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="inputEmail3" class="col-sm-2 control-label">年齢</label>
+    <div class="col-sm-10">
+      <input type="text" class="form-control" placeholder="" value={{members[activeMemberIdx].age}}>
+    </div>
+  </div>
+  <div class="form-group">
+    <div class="col-sm-offset-2 col-sm-10">
+      <button type="submit" class="btn btn-default">更新</button>
+    </div>
+  </div>
+</form>
