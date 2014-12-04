@@ -61,7 +61,6 @@ angular.module('myApp.view1', ['ngRoute', 'ui.bootstrap'])
     angular.forEach(this.checkboxItems, function(item) {
       item.$setViewValue(headValue);
       item.$render();
-      $scope.$apply();
     });
   };
 
@@ -108,9 +107,13 @@ angular.module('myApp.view1', ['ngRoute', 'ui.bootstrap'])
     link: function(scope, elem, attrs, ctrls) {
       ctrls[1].addCheckboxItem(ctrls[0]);
       ctrls[1].addCheckboxItemElem(elem[0]);
-      elem.on('click', function() {
+
+      // DOM eventに対応
+      elem.on('click', function(event) {
         ctrls[1].reviewHead();
       });
+
+      // modelValueの変更に対応
       scope.$watch(function () {
         return ctrls[0].$modelValue;
       }, function(newValue, oldValue) {

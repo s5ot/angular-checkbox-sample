@@ -3,6 +3,7 @@
 <div class="row">
   <div class="col-md-6 col-md-offset-3">
     <form role="form">
+      <h1>AngularJS</h1>
       <table class="table" checkbox-table>
         <tr>
           <th><input type="checkbox" class="checkbox-head" ng-model="checkboxHead" checkbox-head></th>
@@ -14,19 +15,9 @@
         </tr>
       </table>
     </form>
-
-    <!--
-    <pre>
-    {{ checkboxHead | json}}
-    </pre>
-    <pre>
-    {{ members | json}}
-    </pre>
-    -->
-
     <div>
-      <button ng-click="checkAll()">check all</button>
-      <button ng-click="uncheckAll()">uncheck all</button>
+      <button type="button" class="btn btn-default" ng-click="checkAll()">check all</button>
+      <button type="button" class="btn btn-default" ng-click="uncheckAll()">uncheck all</button>
     </div>
   </div>
 </div>
