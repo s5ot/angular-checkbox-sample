@@ -62,6 +62,8 @@ angular.module('myApp.view1', ['ngRoute', 'ui.bootstrap'])
       item.$setViewValue(headValue);
       item.$render();
     });
+    this.checkboxHead.$setViewValue(headValue);
+    this.checkboxHead.$render();
   };
 
   this.reviewHead = function() {
